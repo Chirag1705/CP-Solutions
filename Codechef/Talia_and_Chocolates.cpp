@@ -7,15 +7,15 @@ using namespace std;
 #define sz(x) int(x.size()) 
 #define N 2e5+7
 
-int fact(int n)
+ll fact(ll n)
 {
-    int res = 1;
+   ll res = 1;
     for (int i = 2; i <= n; i++)
         res = res * i;
     return res;
 }
 
-int nCr(int n, int r)
+ll nCr(ll n, ll r)
 {
     return fact(n) / (fact(r) * fact(n - r));
 }
