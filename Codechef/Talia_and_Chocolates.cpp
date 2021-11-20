@@ -21,9 +21,9 @@ ll nCr(ll n, ll r)
 }
 
 // or
-/* int ncr(int n, int r) 
+/* ll ncr(ll n, ll r) 
 {
-    int ans = 1;
+    ll ans = 1;
     for (int i = 1; i <= r; i += 1)
     {
         ans *= (n - r + i);
