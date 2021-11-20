@@ -20,6 +20,18 @@ ll nCr(ll n, ll r)
     return fact(n) / (fact(r) * fact(n - r));
 }
 
+// or
+/* int ncr(int n, int r) 
+{
+    int ans = 1;
+    for (int i = 1; i <= r; i += 1)
+    {
+        ans *= (n - r + i);
+        ans /= i;
+    }
+    return ans;
+} */
+
 void solve(){
         ll n, k;
         cin >> n >> k;
