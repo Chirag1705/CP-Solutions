@@ -1,0 +1,7 @@
+The trick is to analyze which states are winning states and losing states
+Identifying some bases cases, and then trying to think whether A can bring B to a losing state always.
+
+Like in the problem string game :
+There were two base cases, else all follows the pattern
+
+So Game theory is all about analyzing the pattern...
