@@ -1,0 +1,59 @@
+A Naive approach is to take the XOR all possible combinations of array[] elements and then perform the summation of all values. 
+Time complexity of this approach grows exponentially so it would not be better for a large value of n.
+
+
+An Efficient approach is to find the pattern with respect to the property of XOR. Now again consider the subset in binary form like: 
+    1 = 001
+    5 = 101
+    6 = 110
+1 ^ 5 = 100
+1 ^ 6 = 111
+5 ^ 6 = 011
+1^5^6 = 010
+
+So if we analyze all these binary numbers of the XORs, we can observe that set bit occurs at all the positions of i(0 to n-1) will exactly contribute to half of 2n. 
+So we can easily impose these two conditions at each such position of i. 
+ 
+If there is any value of arr[] that has set ith bit set, then exactly half of 2n subsets will be of the form, so they will contribute to 2n-1+i to the final sum.
+If there is no value of arr[] that ith bit set, then we can say that there will be no term in all subsets that have a ith bit set.
+
+The proof of the above point is as follows:
+Case 1: 
+Lets assume there are k elements in the array with ith bit set and k is not zero. 
+So, to have a subset with ith bit set in its xor, we need it to have odd number of elements with ith bit set.
+Number of ways to choose elements with ith bit not set = 2(n-k) 
+Number of ways to choose elements with ith bit set = kC1 + kC3 + kC5 …. = 2(k-1)
+Total number of ways = 2(n-1) 
+Thus, the contribution towards sum becomes, 2(n+i-1)
+Case 2: 
+If no element has ith bit set, i.e. k = 0, the contribution of ith bit towards total sum remains 0.
+Now the question boils down to check which position of element of the arr[] will be set or not. 
+But here is some trick that we will not iterate for all elements one by one in spite of that we can simple take the OR of all such values and multiply with 2n-1, For example:- 
+ 
+Take a OR of all arr[] elements, we get 
+= 1 | 5 | 6
+= 001 | 101 | 110
+= 111
+
+Now to find final summation, we can write it down as:-
+= 1*2n-1+2 + 1*2n-1+1 + 1*2n-1+0
+= 2n-1 * (1*22 + 1*21 + 1*20 )
+= 2n-1 * (1112)
+= 2n-1 * 7
+
+Put n = 3,  we get
+= 28
+So at last for any value of n and array elements, we can simple say that the final sum will be 2n-1 times the bitwise OR of all the inputs.
+
+int xorSum(int arr[], int n)
+{
+    int bits = 0;
+ 
+    // Finding bitwise OR of all elements
+    for (int i=0; i < n; ++i)
+        bits |= arr[i];
+ 
+    int ans = bits * pow(2, n-1);
+ 
+    return ans;
+}
