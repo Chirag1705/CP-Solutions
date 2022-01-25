@@ -1,4 +1,5 @@
 // Counting the number of divisors in O(sqrt(n)) times
+// We can check if a number is prime or not
 
 #include<bits/stdc++.h>
 using namespace std;
