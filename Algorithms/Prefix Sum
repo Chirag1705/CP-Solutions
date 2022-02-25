@@ -1,0 +1,12 @@
+vt<ll>par;
+       
+        for(ll i = 0; i < n; i++){
+            sum += v1[i];
+            par.pb(sum);
+        }
+
+Instead of calculating prefix sum in this way, we can directly calculate using STL's partial_sum function
+vt<ll>new
+Its syntax ---> partial_sum(par.begin(), par.end(), new)
+
+All the prefix sums of par will be stored in new vector.
