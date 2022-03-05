@@ -1,0 +1,5 @@
+to check the nature of jth bit of i
+
+------>  i & (1 << j)
+
+to check the number of set bits ----> __builtin_popcountll
