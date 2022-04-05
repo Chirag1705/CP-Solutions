@@ -1,0 +1,65 @@
+--->  Maximum Subarray using Divide and Conquer
+
+We can solve this using divide and conquer strategy. This is the follow-up question asked in this question. 
+This involves modelling the problem by observing that the maximum subarray sum is such that it lies somewhere -
+
+entirely in the left-half of array [L, mid-1], OR
+entirely in the right-half of array [mid+1, R], OR
+in array consisting of mid element along with some part of left-half and some part of right-half such that these form contiguous subarray - 
+[L', R'] = [L', mid-1] + [mid] + [mid+1,R'], where L' >= L and R' <= R
+With the above observation, 
+we can recursively divide the array into sub-problems on the left and right halves and then combine these results on the way back up to find the maximum subarray sum.
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        return maxSubArray(nums, 0, size(nums)-1);
+    }
+    int maxSubArray(vector<int>& A, int L, int R){
+        if(L > R) return INT_MIN;
+        int mid = (L + R) / 2, leftSum = 0, rightSum = 0;
+        // leftSum = max subarray sum in [L, mid-1] and starting from mid-1
+        for(int i = mid-1, curSum = 0; i >= L; i--)
+            curSum += A[i],
+            leftSum=max(leftSum, curSum);
+        // rightSum = max subarray sum in [mid+1, R] and starting from mid+1
+        for(int i = mid+1, curSum = 0; i <= R; i++)
+            curSum += A[i],
+            rightSum = max(rightSum, curSum);        
+		// return max of 3 cases 
+        return max({ maxSubArray(A, L, mid-1), maxSubArray(A, mid+1, R), leftSum + A[mid] + rightSum });
+    }	
+};
+
+Time Complexity : O(NlogN), the recurrence relation can be written as T(N) = 2T(N/2) + O(N) since we are recurring for left and right half (2T(N/2)) and 
+also calculating maximal subarray including mid element which takes O(N) to calculate. 
+Solving this recurrence using master theorem, we can get the time complexity as O(NlogN)
+Space Complexity : O(logN), required by recursive stack
+
+---> Optimized 
+
+We can further optimize the previous solution. The O(N) term in the recurrence relation of previous solution was due to computation of max sum subarray involving nums[mid] in each recursion.
+
+But we can reduce that term to O(1) if we precompute it. 
+This can be done by precomputing two arrays pre and suf where pre[i] will denote maximum sum subarray ending at i and suf[i] denotes the maximum subarray starting at i. 
+pre is similar to dp array that we computed in dynamic programming solutions and suf can be calculated in similar way, just by starting iteration from the end.
+
+class Solution {
+public:
+    vector<int> pre, suf;
+    int maxSubArray(vector<int>& nums) {
+        pre = suf = nums;
+        for(int i = 1; i < size(nums); i++)  pre[i] += max(0, pre[i-1]);
+        for(int i = size(nums)-2; ~i; i--)   suf[i] += max(0, suf[i+1]);
+        return maxSubArray(nums, 0, size(nums)-1);
+    }
+    int maxSubArray(vector<int>& A, int L, int R){
+        if(L == R) return A[L];
+        int mid = (L + R) / 2;
+        return max({ maxSubArray(A, L, mid), maxSubArray(A, mid+1, R), pre[mid] + suf[mid+1] });
+    }	
+};
+
+Time Complexity : O(N), the recurrence relation can be written as T(N) = 2T(N/2) + O(1) since we are recurring for left and right half (2T(N/2)) and calculating maximal subarray including mid element in O(1). 
+Solving this recurrence using master theorem, we can get the time complexity as O(N)
+Space Complexity : O(N), required by suf and pre.
