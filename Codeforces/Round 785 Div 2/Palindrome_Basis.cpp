@@ -140,6 +140,41 @@ void solve() {
 	}
 }
 
+/* vector<int> p;
+ll helper(int n, int m, vector<vector<ll>>& dp){
+    if(n < 0)
+        return 0;
+    if(m < 0){
+        return n == 0;
+    }
+    if(dp[n][m] != -1){
+        return dp[n][m];
+    }
+    ll ways1 = helper(n - p[m], m, dp);
+    ll ways2 = helper(n, m - 1, dp);
+    dp[n][m] = (ways1 + ways2) % MOD;
+    return dp[n][m];
+}
+void solve() {
+    int t;
+    cin >> t;
+    for(int i = 1; i <= 4e4; i++){
+        string a = to_string(i);
+        string b = a;
+        reverse(all(b));
+        if(a == b){
+            p.pb(i);
+        }
+    }
+    int m = sz(p);
+    vector<vector<ll>> dp(4e4 + 1, vector<ll>(m, -1));
+    while(t--){
+        int n;
+        cin >> n;
+        cout << helper(n, m - 1, dp) << nline;
+    }
+} */
+
 int main()
 {
 	FASTIO;
