@@ -28,26 +28,55 @@ void solve() {
 	ll n;
 	cin >> n;
 
-	vt<ll>vec1(n), vec2(n);
+	vt<ll>arr(n), arr1(n);
 
 	for (ll i = 0; i < n; i++)
-		cin >> vec1[i] >> vec2[i];
+		cin >> arr[i];
 
-	sort(vec1.begin(), vec1.end());
-	sort(vec2.begin(), vec2.end());
+	arr1 = arr;
 
-	ll ans = 0;
+	sort(arr1.begin(), arr1.end());
 
-	if (vec1[n - 1] > 0)
-		ans += 2 * vec1[n - 1];
-	if (vec1[0] < 0)
-		ans += 2 * abs(vec1[0]);
-	if (vec2[n - 1] > 0)
-		ans += 2 * vec2[n - 1];
-	if (vec2[0] < 0)
-		ans += 2 * abs(vec2[0]);
+	if (arr1 == arr) {
+		cout << "YES" << "\n";
+		return;
+	}
 
-	cout << ans << "\n";
+	reverse(arr1.begin(), arr1.end());
+
+	if (arr1 == arr) {
+		cout << "YES" << "\n";
+		return;
+	}
+
+	ll f = 0;
+
+	for (ll i = 1; i < n; i++) {
+		if (f == 4) {
+			if (arr[i] > arr[i - 1]) {
+				cout << "NO" << "\n";
+				return;
+			}
+		}
+		if (f == 2) {
+			if (arr[i] > arr[i - 1]) {
+				cout << "NO" << "\n";
+				return;
+			}
+		}
+		if (f == 1) {
+			if (arr[i] < arr[i - 1])
+				f = 2;
+			continue;
+		}
+
+		if (arr[i] > arr[i - 1])
+			f = 1;
+		else if (arr[i] < arr[i - 1])
+			f = 4;
+	}
+
+	cout << "YES" << "\n";
 }
 
 int main()
