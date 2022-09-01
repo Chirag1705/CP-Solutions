@@ -1,16 +1,34 @@
-vector<int> manacher_odd(string s) {
-    int n = s.size();
-    s = "$" + s + "^";
-    vector<int> p(n + 2);
-    int l = 1, r = 1;
-    for(int i = 1; i <= n; i++) {
-        p[i] = max(0, min(r - i, p[l + (r - i)]));
-        while(s[i - p[i]] == s[i + p[i]]) {
-            p[i]++;
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.size();
+        vector<char>s1(2*n+1);
+        vector<int>p(2*n+1);
+        int i = 0;
+        s1[i++] = '*';
+        
+        for(int j = 0; j < s.size(); j++){
+            s1[i++] = s[j];
+            s1[i++] = '*';
         }
-        if(i + p[i] > r) {
-            l = i - p[i], r = i + p[i];
+                        
+        int l = 0, r = 0;
+        
+        for(int j = 0; j < s1.size(); j++){
+            int mir = 2*l - j;
+            
+            if(r > j)
+                p[j] = min(p[mir], r - j);
+            
+            while ((j - p[j] - 1) >= 0 and (j + p[j] + 1) < s1.size() and s1[j + p[j] + 1] == s1[j - p[j] - 1]){
+                p[j]++;
+            }
+            
+            if(j+p[j] > r){
+                l = j;
+                r = j + p[j];
+            }
         }
+        
     }
-    return vector<int>(begin(p) + 1, end(p) - 1);
-}
+};
