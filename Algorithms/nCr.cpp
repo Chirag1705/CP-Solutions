@@ -46,4 +46,43 @@ int main(){
     return 0;
 }
 
+--------------------------------------------------------------------------------------
+    
+ll power(ll x, ll y, ll p)
+{
+	unsigned ll res = 1;
+	x = x % p;
 
+	while (y > 0)
+	{
+
+		if (y & 1)
+			res = (res * x) % p;
+
+		y = y >> 1;
+		x = (x * x) % p;
+	}
+	return res;
+}
+
+ll modInverse(ll n, ll p) {
+	return power(n, p - 2, p);
+}
+
+ll nCrModPFermat(ll n, ll r, ll mod) {
+	if (n < r)
+		return 0;
+
+	if (r == 0)
+		return 1;
+
+	ll fact[n + 1];
+
+	fact[0] = 1;
+
+	for (ll i = 1; i <= n; i++) {
+		fact[i] = (fact[i - 1] * i) % mod;
+	}
+
+	return (fact[n] * modInverse(fact[r], mod) % mod * modInverse(fact[n - r], mod) % mod) % mod;
+}
