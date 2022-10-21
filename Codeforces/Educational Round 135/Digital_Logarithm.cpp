@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pb push_back
+#define FASTIO ios_base::sync_with_stdio(false),cin.tie(NULL),cout.tie(NULL)
+#define vt vector
+#define sz(x) int(x.size())
+#define ff first
+#define ss second
+// #define mod 1e9 + 7
+const ll mod = 1e9 + 7;
+#define set_bits __builtin_popcountll
+
+// binpow
+ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+
+ll inv(ll i) { if (i == 1) return 1; return (mod - ((mod / i) * inv(mod % i)) % mod) % mod; }
+
+ll mod_add(ll a, ll b) { a = a % mod; b = b % mod; return (((a + b) % mod) + mod) % mod;}
+
+ll mod_mul(ll a, ll b, ll m = mod) { a = a % m; b = b % m; return (((a * b) % m) + m) % m; }
+
+ll mod_sub(ll a, ll b, ll m = mod) { a = a % m; b = b % m; return ((a - b) + m) % m; }
+
+ll mod_div(ll a, ll b, ll m = mod) { a = a % m; ll inv_b = expo(b, m - 2, m); ll res = a * inv_b % m; return res; }
+
+void solve() {
+	ll n;
+	cin >> n;
+
+	vt<int>a(n), b(n);
+	priority_queue<int>q1, q2;
+
+	for (ll i = 0; i < n; i++) {
+		cin >> a[i];
+		q1.push(a[i]);
+	}
+
+	for (ll i = 0; i < n; i++) {
+		cin >> b[i];
+		q2.push(b[i]);
+	}
+
+	ll oper = 0;
+
+	while (!q1.empty()) {
+		if (q1.top() == q2.top()) {
+			q1.pop();
+			q2.pop();
+		}
+		else if (q1.top() > q2.top()) {
+			q1.push(to_string(q1.top()).size());
+			q1.pop();
+			oper++;
+		}
+		else {
+			q2.push(to_string(q2.top()).size());
+			q2.pop();
+			oper++;
+		}
+	}
+
+	cout << oper << "\n";
+}
+
+int main()
+{
+	FASTIO;
+
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
+
+	ll t;
+	cin >> t;
+	while (t--)
+	{
+		solve();
+	}
+}
